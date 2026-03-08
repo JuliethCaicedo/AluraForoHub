@@ -1,26 +1,35 @@
-# 🚀 ForoHub - Challenge Alura
+# 🚀 Foro Hub - Challenge Alura (Back End)
 
-Este proyecto es una **API Rest** desarrollada en **Java** utilizando el framework **Spring Boot**. El objetivo es gestionar un foro donde los usuarios puedan publicar y administrar tópicos de discusión.
+Este proyecto es una **API REST** robusta desarrollada en **Java** con **Spring Boot**. El objetivo es gestionar un foro donde los usuarios pueden interactuar con tópicos de discusión de manera segura y organizada.
 
-> **⚠️ Proyecto en Desarrollo:** Actualmente el sistema se encuentra en fase de construcción.
+> **✅ Proyecto Finalizado:** Cumple con todos los requisitos del desafío de Oracle Next Education (ONE).
 
-## 🛠️ Tecnologías y Herramientas
+## 🛠️ Tecnologías y Frameworks
 * **Java 17**
 * **Spring Boot 3**
-* **Spring Data JPA** (Persistencia y mapeo de datos)
-* **Maven** (Gestión de dependencias)
-* **MySQL** (Base de datos persistente)
-* **Flyway** (Control de versiones de la base de datos)
-* **Insomnia** (Para pruebas de los endpoints)
+* **Spring Data JPA**: Para la persistencia de datos.
+* **Spring Security**: Para el control de acceso.
+* **Auth0 JWT**: Implementación de tokens para autenticación segura.
+* **MySQL**: Base de datos relacional.
+* **Flyway**: Control de versiones de la base de datos (Migrations).
+* **Maven**: Gestión de dependencias.
 
-## 📌 Funcionalidades del API (CRUD de Tópicos)
-El sistema permite realizar las siguientes operaciones mediante solicitudes HTTP:
+## 📌 Funcionalidades (CRUD RESTful)
+La API permite gestionar el ciclo de vida completo de los tópicos:
+1. **Crear un nuevo tópico**: Registra preguntas con validaciones de negocio.
+2. **Mostrar todos los tópicos**: Listado optimizado desde MySQL.
+3. **Mostrar un tópico específico**: Consulta detallada por ID.
+4. **Actualizar un tópico**: Edición de datos existentes.
+5. **Eliminar un tópico**: Remoción de registros del sistema.
 
-*   **Ingresar un tópico:** Registrar nuevas preguntas o dudas en el foro.
-*   **Ver todos los tópicos:** Listar todos los registros guardados en la base de datos MySQL.
-*   **Ver un tópico individual:** Consultar el detalle de un tópico específico por su ID.
-*   **Actualizar un tópico:** Modificar los datos de un tópico ya existente.
-*   **Eliminar un tópico:** Borrar un registro del sistema.
+## 🛡️ Seguridad y Buenas Prácticas
+* **Autenticación JWT**: Solo usuarios autenticados pueden realizar cambios.
+* **Validaciones**: Se implementaron reglas para evitar datos nulos o duplicados.
+* **Modelo REST**: Uso correcto de métodos HTTP (GET, POST, PUT, DELETE) y códigos de estado.
+
+## ⚙️ Pruebas de la API
+Todas las rutas y el servicio de autenticación fueron validados satisfactoriamente utilizando **Insomnia**.
 
 ---
-Desarrollado por **Julieth Caicedo** como parte del programa Oracle Next Education.
+**Desarrollado por Julieth Caicedo**
+*Alura Foro Hub - Grupo 9*
