@@ -1,6 +1,6 @@
-package com.ic.aluraforohub.topico;
+package com.ic.aluraforohub.domain.topico;
 
-import com.ic.aluraforohub.autor.Autor;
+import com.ic.aluraforohub.domain.autor.Autor;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -39,7 +39,6 @@ public class Topico {
         this.titulo = datosTopico.titulo();
         this.mensaje = datosTopico.mensaje();
         this.nombreCurso = datosTopico.nombreCurso();
-        this.fechaCreacion = datosTopico.fechaCreacion();
         this.status = datosTopico.status();
         this.autor = autor;
     }
@@ -56,5 +55,14 @@ public class Topico {
         if (datosActualizacionTopico.mensaje() != null){
             this.mensaje = datosActualizacionTopico.mensaje();
         }
+        if(datosActualizacionTopico.status() != null){
+            this.status = datosActualizacionTopico.status();
+        }
     }
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaCreacion = LocalDate.now();
+    }
+
 }

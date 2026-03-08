@@ -1,9 +1,9 @@
 package com.ic.aluraforohub.controller;
 
 
-import com.ic.aluraforohub.autor.Autor;
-import com.ic.aluraforohub.autor.AutorRepository;
-import com.ic.aluraforohub.topico.*;
+import com.ic.aluraforohub.domain.autor.Autor;
+import com.ic.aluraforohub.domain.autor.AutorRepository;
+import com.ic.aluraforohub.domain.topico.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class TopicoController {
 
     @Transactional
     @PostMapping
-    public void registrarTopico(@RequestBody @Valid DatosTopico datosTopico) {
+    public ResponseEntity registrarTopico(@RequestBody @Valid DatosTopico datosTopico, UriComponentsBuilder uriComponentsBuilder) {
 
         boolean yaExiste = topicoRepository.existsByTituloAndMensaje(datosTopico.titulo(), datosTopico.mensaje());
 
@@ -40,41 +41,52 @@ public class TopicoController {
 
         Autor autor = autorRepository.findById(datosTopico.idAutor())
                 .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
-        topicoRepository.save(new Topico(datosTopico, autor));
+
+        Topico topico = new Topico(datosTopico, autor);
+        topicoRepository.save(topico);
+
+        var uri =uriComponentsBuilder.path("/topico/{id}").buildAndExpand(topico.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new DatosDetalleTopico(topico));
     }
 
     @GetMapping
-    public Page<DatosListadoTopico> datosListadoTopico(@PageableDefault(size=10,sort = {"fechaCreacion"}) Pageable paginacion){
-        return  topicoRepository.findAll(paginacion)
+    public ResponseEntity<Page<DatosListadoTopico>> datosListadoTopico(@PageableDefault(size=10,sort = {"fechaCreacion"}) Pageable paginacion){
+
+        var page =  topicoRepository.findAll(paginacion)
                 .map(DatosListadoTopico::new);
+
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public DatosTopicoIndividual retornarDatosTopico(@PathVariable Long id){
+    public ResponseEntity<DatosTopicoIndividual> retornarDatosTopico(@PathVariable Long id){
         Optional<Topico> topicoOptional = topicoRepository.findById(id);
         if (!topicoOptional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no encontrado");
         }
-       return new DatosTopicoIndividual(topicoOptional.get());
+       var topicoIndividual = new DatosTopicoIndividual(topicoOptional.get());
 
+        return  ResponseEntity.ok(topicoIndividual);
     }
 
 
     @Transactional
     @PutMapping("/{id}")
-    public void actualizar(@PathVariable Long id, @RequestBody DatosActualizacionTopico datosActualizacionTopico){
+    public ResponseEntity actualizar(@PathVariable Long id, @RequestBody DatosActualizacionTopico datosActualizacionTopico){
 
         Optional<Topico> topicoOptional = topicoRepository.findById(id);
         if (!topicoOptional.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tópico no encontrado");
         }
-
         var topico = topicoOptional.get();
         topico.actualizarInformaciones(datosActualizacionTopico);
+
+        return ResponseEntity.ok(new DatosDetalleTopico(topico));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarTopico(@PathVariable Long id) {
+    public ResponseEntity eliminarTopico(@PathVariable Long id) {
 
         Optional<Topico> topicoOptional = topicoRepository.findById(id);
         if (!topicoOptional.isPresent()) {

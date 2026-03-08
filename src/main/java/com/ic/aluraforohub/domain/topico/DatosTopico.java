@@ -1,4 +1,4 @@
-package com.ic.aluraforohub.topico;
+package com.ic.aluraforohub.domain.topico;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -17,9 +17,6 @@ public record DatosTopico(
 
         @NotBlank(message = "El nombreCurso no puede estar vacío")
         String nombreCurso,
-
-        @NotNull(message = "La fechaCreacion no puede estar vacío")
-        LocalDate fechaCreacion,
 
         @NotNull(message = "El status no puede estar vacío")
         StatusTopico status,

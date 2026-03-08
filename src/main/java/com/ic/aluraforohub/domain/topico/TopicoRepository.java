@@ -1,4 +1,4 @@
-package com.ic.aluraforohub.topico;
+package com.ic.aluraforohub.domain.topico;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,9 +1,4 @@
-package com.ic.aluraforohub.topico;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
+package com.ic.aluraforohub.domain.topico;
 import java.time.LocalDate;
 
 public record DatosListadoTopico(

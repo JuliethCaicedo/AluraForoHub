@@ -1,20 +1,21 @@
-package com.ic.aluraforohub.topico;
-
-import jakarta.validation.constraints.NotNull;
+package com.ic.aluraforohub.domain.topico;
 
 import java.time.LocalDate;
 
-public record DatosTopicoIndividual(
-
+public record DatosDetalleTopico(
+        Long id,
         String titulo,
         String mensaje,
         LocalDate fechaCreacion,
         String nombreCurso,
         StatusTopico status,
         Long idAutor
+
 ) {
-    public DatosTopicoIndividual(Topico topico) {
-        this(   topico.getTitulo(),
+
+    public DatosDetalleTopico(Topico topico) {
+        this(   topico.getId(),
+                topico.getTitulo(),
                 topico.getMensaje(),
                 topico.getFechaCreacion(),
                 topico.getNombreCurso(),
